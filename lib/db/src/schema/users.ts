@@ -11,6 +11,7 @@ export const usersTable = pgTable("users", {
   phone: text("phone"),
   role: text("role").notNull().default("member"),
   planId: integer("plan_id"),
+  assignedTrainerId: integer("assigned_trainer_id"),
   memberSince: timestamp("member_since").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
 });

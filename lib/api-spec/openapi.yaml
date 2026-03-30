@@ -31,6 +31,8 @@ tags:
     description: Contact messages
   - name: admin
     description: Admin operations
+  - name: trainer
+    description: Trainer portal operations
 
 paths:
   /healthz:
@@ -450,6 +452,97 @@ paths:
                 items:
                   $ref: "#/components/schemas/ContactMessage"
 
+  /admin/trainers/setup:
+    post:
+      operationId: setupTrainerCredentials
+      tags: [admin]
+      summary: Create trainer profile with login credentials (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetupTrainerRequest"
+      responses:
+        "201":
+          description: Trainer created with credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SetupTrainerResponse"
+
+  /admin/users/{id}/assign-trainer:
+    patch:
+      operationId: assignTrainerToMember
+      tags: [admin]
+      summary: Assign a trainer to a member (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignTrainerRequest"
+      responses:
+        "200":
+          description: Trainer assigned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /trainer/stats:
+    get:
+      operationId: getTrainerStats
+      tags: [trainer]
+      summary: Get trainer dashboard stats
+      responses:
+        "200":
+          description: Trainer stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainerStats"
+
+  /trainer/members:
+    get:
+      operationId: getTrainerMembers
+      tags: [trainer]
+      summary: Get members assigned to this trainer
+      responses:
+        "200":
+          description: List of assigned members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /trainer/blog:
+    post:
+      operationId: createTrainerBlogPost
+      tags: [trainer]
+      summary: Create a blog post as a trainer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBlogPostRequest"
+      responses:
+        "201":
+          description: Blog post created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+
 components:
   schemas:
     HealthStatus:
@@ -536,8 +629,10 @@ components:
           type: string
         role:
           type: string
-          enum: [member, admin]
+          enum: [member, admin, trainer]
         planId:
+          type: integer
+        assignedTrainerId:
           type: integer
         memberSince:
           type: string
@@ -556,6 +651,8 @@ components:
       type: object
       properties:
         id:
+          type: integer
+        userId:
           type: integer
         name:
           type: string
@@ -940,4 +1037,74 @@ components:
         - totalTrainers
         - totalBlogPosts
         - unreadMessages
-        - newMembersThisMonth
+
+    SetupTrainerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        specialty:
+          type: string
+        bio:
+          type: string
+        imageUrl:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        experience:
+          type: integer
+        certifications:
+          type: array
+          items:
+            type: string
+        rating:
+          type: number
+        password:
+          type: string
+      required:
+        - name
+        - specialty
+        - bio
+        - email
+        - password
+
+    SetupTrainerResponse:
+      type: object
+      properties:
+        trainer:
+          $ref: "#/components/schemas/Trainer"
+        loginEmail:
+          type: string
+        message:
+          type: string
+      required:
+        - trainer
+        - loginEmail
+        - message
+
+    AssignTrainerRequest:
+      type: object
+      properties:
+        trainerId:
+          type: integer
+      required:
+        - trainerId
+
+    TrainerStats:
+      type: object
+      properties:
+        assignedMembers:
+          type: integer
+        totalBlogPosts:
+          type: integer
+        trainerName:
+          type: string
+        specialty:
+          type: string
+      required:
+        - assignedMembers
+        - totalBlogPosts
+        - trainerName
+        - specialty

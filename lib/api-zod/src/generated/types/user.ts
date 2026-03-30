@@ -15,6 +15,7 @@ export interface User {
   phone?: string;
   role: UserRole;
   planId?: number;
+  assignedTrainerId?: number;
   memberSince?: Date;
   createdAt?: Date;
 }

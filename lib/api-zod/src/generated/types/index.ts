@@ -7,6 +7,7 @@
  */
 
 export * from "./adminStats";
+export * from "./assignTrainerRequest";
 export * from "./authResponse";
 export * from "./blogPost";
 export * from "./blogPostsResponse";
@@ -27,8 +28,11 @@ export * from "./paymentStatus";
 export * from "./performanceEntry";
 export * from "./pricingPlan";
 export * from "./registerRequest";
+export * from "./setupTrainerRequest";
+export * from "./setupTrainerResponse";
 export * from "./successResponse";
 export * from "./testimonial";
 export * from "./trainer";
+export * from "./trainerStats";
 export * from "./user";
 export * from "./userRole";

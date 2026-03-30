@@ -18,6 +18,7 @@ import type {
 
 import type {
   AdminStats,
+  AssignTrainerRequest,
   AuthResponse,
   BlogPost,
   BlogPostsResponse,
@@ -37,9 +38,12 @@ import type {
   PerformanceEntry,
   PricingPlan,
   RegisterRequest,
+  SetupTrainerRequest,
+  SetupTrainerResponse,
   SuccessResponse,
   Testimonial,
   Trainer,
+  TrainerStats,
   User,
 } from "./api.schemas";
 
@@ -1988,3 +1992,412 @@ export function useGetContactMessages<
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
+
+/**
+ * @summary Create trainer profile with login credentials (admin)
+ */
+export const getSetupTrainerCredentialsUrl = () => {
+  return `/api/admin/trainers/setup`;
+};
+
+export const setupTrainerCredentials = async (
+  setupTrainerRequest: SetupTrainerRequest,
+  options?: RequestInit,
+): Promise<SetupTrainerResponse> => {
+  return customFetch<SetupTrainerResponse>(getSetupTrainerCredentialsUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(setupTrainerRequest),
+  });
+};
+
+export const getSetupTrainerCredentialsMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof setupTrainerCredentials>>,
+    TError,
+    { data: BodyType<SetupTrainerRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof setupTrainerCredentials>>,
+  TError,
+  { data: BodyType<SetupTrainerRequest> },
+  TContext
+> => {
+  const mutationKey = ["setupTrainerCredentials"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof setupTrainerCredentials>>,
+    { data: BodyType<SetupTrainerRequest> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return setupTrainerCredentials(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type SetupTrainerCredentialsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof setupTrainerCredentials>>
+>;
+export type SetupTrainerCredentialsMutationBody = BodyType<SetupTrainerRequest>;
+export type SetupTrainerCredentialsMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Create trainer profile with login credentials (admin)
+ */
+export const useSetupTrainerCredentials = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof setupTrainerCredentials>>,
+    TError,
+    { data: BodyType<SetupTrainerRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof setupTrainerCredentials>>,
+  TError,
+  { data: BodyType<SetupTrainerRequest> },
+  TContext
+> => {
+  return useMutation(getSetupTrainerCredentialsMutationOptions(options));
+};
+
+/**
+ * @summary Assign a trainer to a member (admin)
+ */
+export const getAssignTrainerToMemberUrl = (id: number) => {
+  return `/api/admin/users/${id}/assign-trainer`;
+};
+
+export const assignTrainerToMember = async (
+  id: number,
+  assignTrainerRequest: AssignTrainerRequest,
+  options?: RequestInit,
+): Promise<SuccessResponse> => {
+  return customFetch<SuccessResponse>(getAssignTrainerToMemberUrl(id), {
+    ...options,
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(assignTrainerRequest),
+  });
+};
+
+export const getAssignTrainerToMemberMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof assignTrainerToMember>>,
+    TError,
+    { id: number; data: BodyType<AssignTrainerRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof assignTrainerToMember>>,
+  TError,
+  { id: number; data: BodyType<AssignTrainerRequest> },
+  TContext
+> => {
+  const mutationKey = ["assignTrainerToMember"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof assignTrainerToMember>>,
+    { id: number; data: BodyType<AssignTrainerRequest> }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return assignTrainerToMember(id, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type AssignTrainerToMemberMutationResult = NonNullable<
+  Awaited<ReturnType<typeof assignTrainerToMember>>
+>;
+export type AssignTrainerToMemberMutationBody = BodyType<AssignTrainerRequest>;
+export type AssignTrainerToMemberMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Assign a trainer to a member (admin)
+ */
+export const useAssignTrainerToMember = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof assignTrainerToMember>>,
+    TError,
+    { id: number; data: BodyType<AssignTrainerRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof assignTrainerToMember>>,
+  TError,
+  { id: number; data: BodyType<AssignTrainerRequest> },
+  TContext
+> => {
+  return useMutation(getAssignTrainerToMemberMutationOptions(options));
+};
+
+/**
+ * @summary Get trainer dashboard stats
+ */
+export const getGetTrainerStatsUrl = () => {
+  return `/api/trainer/stats`;
+};
+
+export const getTrainerStats = async (
+  options?: RequestInit,
+): Promise<TrainerStats> => {
+  return customFetch<TrainerStats>(getGetTrainerStatsUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetTrainerStatsQueryKey = () => {
+  return [`/api/trainer/stats`] as const;
+};
+
+export const getGetTrainerStatsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTrainerStats>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getTrainerStats>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetTrainerStatsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getTrainerStats>>> = ({
+    signal,
+  }) => getTrainerStats({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTrainerStats>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetTrainerStatsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTrainerStats>>
+>;
+export type GetTrainerStatsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get trainer dashboard stats
+ */
+
+export function useGetTrainerStats<
+  TData = Awaited<ReturnType<typeof getTrainerStats>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getTrainerStats>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetTrainerStatsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get members assigned to this trainer
+ */
+export const getGetTrainerMembersUrl = () => {
+  return `/api/trainer/members`;
+};
+
+export const getTrainerMembers = async (
+  options?: RequestInit,
+): Promise<User[]> => {
+  return customFetch<User[]>(getGetTrainerMembersUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetTrainerMembersQueryKey = () => {
+  return [`/api/trainer/members`] as const;
+};
+
+export const getGetTrainerMembersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTrainerMembers>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getTrainerMembers>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetTrainerMembersQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getTrainerMembers>>
+  > = ({ signal }) => getTrainerMembers({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTrainerMembers>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetTrainerMembersQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTrainerMembers>>
+>;
+export type GetTrainerMembersQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get members assigned to this trainer
+ */
+
+export function useGetTrainerMembers<
+  TData = Awaited<ReturnType<typeof getTrainerMembers>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getTrainerMembers>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetTrainerMembersQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Create a blog post as a trainer
+ */
+export const getCreateTrainerBlogPostUrl = () => {
+  return `/api/trainer/blog`;
+};
+
+export const createTrainerBlogPost = async (
+  createBlogPostRequest: CreateBlogPostRequest,
+  options?: RequestInit,
+): Promise<BlogPost> => {
+  return customFetch<BlogPost>(getCreateTrainerBlogPostUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(createBlogPostRequest),
+  });
+};
+
+export const getCreateTrainerBlogPostMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createTrainerBlogPost>>,
+    TError,
+    { data: BodyType<CreateBlogPostRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createTrainerBlogPost>>,
+  TError,
+  { data: BodyType<CreateBlogPostRequest> },
+  TContext
+> => {
+  const mutationKey = ["createTrainerBlogPost"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createTrainerBlogPost>>,
+    { data: BodyType<CreateBlogPostRequest> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createTrainerBlogPost(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateTrainerBlogPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createTrainerBlogPost>>
+>;
+export type CreateTrainerBlogPostMutationBody = BodyType<CreateBlogPostRequest>;
+export type CreateTrainerBlogPostMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Create a blog post as a trainer
+ */
+export const useCreateTrainerBlogPost = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createTrainerBlogPost>>,
+    TError,
+    { data: BodyType<CreateBlogPostRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createTrainerBlogPost>>,
+  TError,
+  { data: BodyType<CreateBlogPostRequest> },
+  TContext
+> => {
+  return useMutation(getCreateTrainerBlogPostMutationOptions(options));
+};

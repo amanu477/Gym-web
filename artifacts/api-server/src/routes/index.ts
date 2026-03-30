@@ -10,6 +10,7 @@ import performanceRouter from "./performance.js";
 import paymentsRouter from "./payments.js";
 import contactRouter from "./contact.js";
 import adminRouter from "./admin.js";
+import trainerPortalRouter from "./trainer-portal.js";
 
 const router: IRouter = Router();
 
@@ -24,5 +25,6 @@ router.use("/performance", performanceRouter);
 router.use("/payments", paymentsRouter);
 router.use("/contact", contactRouter);
 router.use("/admin", adminRouter);
+router.use("/trainer", trainerPortalRouter);
 
 export default router;

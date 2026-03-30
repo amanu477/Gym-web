@@ -37,6 +37,7 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole];
 export const UserRole = {
   member: "member",
   admin: "admin",
+  trainer: "trainer",
 } as const;
 
 export interface User {
@@ -47,6 +48,7 @@ export interface User {
   phone?: string;
   role: UserRole;
   planId?: number;
+  assignedTrainerId?: number;
   memberSince?: string;
   createdAt?: string;
 }
@@ -58,6 +60,7 @@ export interface AuthResponse {
 
 export interface Trainer {
   id: number;
+  userId?: number;
   name: string;
   specialty: string;
   bio: string;
@@ -223,7 +226,37 @@ export interface AdminStats {
   totalTrainers: number;
   totalBlogPosts: number;
   unreadMessages: number;
-  newMembersThisMonth: number;
+  newMembersThisMonth?: number;
+}
+
+export interface SetupTrainerRequest {
+  name: string;
+  specialty: string;
+  bio: string;
+  imageUrl?: string;
+  email: string;
+  phone?: string;
+  experience?: number;
+  certifications?: string[];
+  rating?: number;
+  password: string;
+}
+
+export interface SetupTrainerResponse {
+  trainer: Trainer;
+  loginEmail: string;
+  message: string;
+}
+
+export interface AssignTrainerRequest {
+  trainerId: number;
+}
+
+export interface TrainerStats {
+  assignedMembers: number;
+  totalBlogPosts: number;
+  trainerName: string;
+  specialty: string;
 }
 
 export type GetBlogPostsParams = {

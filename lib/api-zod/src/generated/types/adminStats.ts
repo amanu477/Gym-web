@@ -14,5 +14,5 @@ export interface AdminStats {
   totalTrainers: number;
   totalBlogPosts: number;
   unreadMessages: number;
-  newMembersThisMonth: number;
+  newMembersThisMonth?: number;
 }

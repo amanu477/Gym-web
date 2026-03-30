@@ -6,17 +6,15 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface Trainer {
-  id: number;
-  userId?: number;
+export interface SetupTrainerRequest {
   name: string;
   specialty: string;
   bio: string;
   imageUrl?: string;
-  email?: string;
+  email: string;
   phone?: string;
   experience?: number;
   certifications?: string[];
   rating?: number;
-  createdAt?: Date;
+  password: string;
 }

@@ -40,8 +40,9 @@ export const LoginResponse = zod.object({
     firstName: zod.string(),
     lastName: zod.string(),
     phone: zod.string().optional(),
-    role: zod.enum(["member", "admin"]),
+    role: zod.enum(["member", "admin", "trainer"]),
     planId: zod.number().optional(),
+    assignedTrainerId: zod.number().optional(),
     memberSince: zod.coerce.date().optional(),
     createdAt: zod.coerce.date().optional(),
   }),
@@ -65,8 +66,9 @@ export const GetMeResponse = zod.object({
   firstName: zod.string(),
   lastName: zod.string(),
   phone: zod.string().optional(),
-  role: zod.enum(["member", "admin"]),
+  role: zod.enum(["member", "admin", "trainer"]),
   planId: zod.number().optional(),
+  assignedTrainerId: zod.number().optional(),
   memberSince: zod.coerce.date().optional(),
   createdAt: zod.coerce.date().optional(),
 });
@@ -76,6 +78,7 @@ export const GetMeResponse = zod.object({
  */
 export const GetTrainersResponseItem = zod.object({
   id: zod.number(),
+  userId: zod.number().optional(),
   name: zod.string(),
   specialty: zod.string(),
   bio: zod.string(),
@@ -113,6 +116,7 @@ export const GetTrainerParams = zod.object({
 
 export const GetTrainerResponse = zod.object({
   id: zod.number(),
+  userId: zod.number().optional(),
   name: zod.string(),
   specialty: zod.string(),
   bio: zod.string(),
@@ -340,7 +344,7 @@ export const GetAdminStatsResponse = zod.object({
   totalTrainers: zod.number(),
   totalBlogPosts: zod.number(),
   unreadMessages: zod.number(),
-  newMembersThisMonth: zod.number(),
+  newMembersThisMonth: zod.number().optional(),
 });
 
 /**
@@ -352,8 +356,9 @@ export const GetAdminUsersResponseItem = zod.object({
   firstName: zod.string(),
   lastName: zod.string(),
   phone: zod.string().optional(),
-  role: zod.enum(["member", "admin"]),
+  role: zod.enum(["member", "admin", "trainer"]),
   planId: zod.number().optional(),
+  assignedTrainerId: zod.number().optional(),
   memberSince: zod.coerce.date().optional(),
   createdAt: zod.coerce.date().optional(),
 });
@@ -376,3 +381,77 @@ export const GetContactMessagesResponseItem = zod.object({
 export const GetContactMessagesResponse = zod.array(
   GetContactMessagesResponseItem,
 );
+
+/**
+ * @summary Create trainer profile with login credentials (admin)
+ */
+export const SetupTrainerCredentialsBody = zod.object({
+  name: zod.string(),
+  specialty: zod.string(),
+  bio: zod.string(),
+  imageUrl: zod.string().optional(),
+  email: zod.string(),
+  phone: zod.string().optional(),
+  experience: zod.number().optional(),
+  certifications: zod.array(zod.string()).optional(),
+  rating: zod.number().optional(),
+  password: zod.string(),
+});
+
+/**
+ * @summary Assign a trainer to a member (admin)
+ */
+export const AssignTrainerToMemberParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const AssignTrainerToMemberBody = zod.object({
+  trainerId: zod.number(),
+});
+
+export const AssignTrainerToMemberResponse = zod.object({
+  success: zod.boolean(),
+  message: zod.string().optional(),
+});
+
+/**
+ * @summary Get trainer dashboard stats
+ */
+export const GetTrainerStatsResponse = zod.object({
+  assignedMembers: zod.number(),
+  totalBlogPosts: zod.number(),
+  trainerName: zod.string(),
+  specialty: zod.string(),
+});
+
+/**
+ * @summary Get members assigned to this trainer
+ */
+export const GetTrainerMembersResponseItem = zod.object({
+  id: zod.number(),
+  email: zod.string(),
+  firstName: zod.string(),
+  lastName: zod.string(),
+  phone: zod.string().optional(),
+  role: zod.enum(["member", "admin", "trainer"]),
+  planId: zod.number().optional(),
+  assignedTrainerId: zod.number().optional(),
+  memberSince: zod.coerce.date().optional(),
+  createdAt: zod.coerce.date().optional(),
+});
+export const GetTrainerMembersResponse = zod.array(
+  GetTrainerMembersResponseItem,
+);
+
+/**
+ * @summary Create a blog post as a trainer
+ */
+export const CreateTrainerBlogPostBody = zod.object({
+  title: zod.string(),
+  excerpt: zod.string(),
+  content: zod.string(),
+  imageUrl: zod.string().optional(),
+  category: zod.string().optional(),
+  author: zod.string(),
+  published: zod.boolean().optional(),
+});
