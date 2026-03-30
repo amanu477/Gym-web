@@ -22,6 +22,7 @@ import Register from "@/pages/auth/Register";
 import Dashboard from "@/pages/member/Dashboard";
 import Performance from "@/pages/member/Performance";
 import Payments from "@/pages/member/Payments";
+import ClassSchedule from "@/pages/member/ClassSchedule";
 
 // Admin Dashboard
 import AdminDashboard from "@/pages/admin/AdminDashboard";
@@ -56,7 +57,7 @@ function Router() {
       {/* Member Routes */}
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/dashboard/performance" component={Performance} />
-      <Route path="/dashboard/calendar" component={Dashboard} /> {/* Reusing Dashboard as placeholder to avoid 404, features are robust */}
+      <Route path="/dashboard/calendar" component={ClassSchedule} />
       <Route path="/dashboard/payments" component={Payments} />
 
       {/* Admin Routes */}

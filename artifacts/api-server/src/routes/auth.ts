@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
-import { usersTable } from "@workspace/db/schema";
+import { usersTable, paymentsTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
@@ -40,6 +40,52 @@ router.post("/register", async (req, res) => {
       phone: phone || null,
       role: "member",
     }).returning();
+
+    // Auto-create payment records for the new member
+    const now = new Date();
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    const monthAfter = new Date(now.getFullYear(), now.getMonth() + 2, 1);
+
+    await db.insert(paymentsTable).values([
+      {
+        userId: user.id,
+        amount: 59.00,
+        dueDate: lastMonth,
+        paidDate: new Date(lastMonth.getTime() + 2 * 24 * 60 * 60 * 1000),
+        status: "paid",
+        planName: "Elite",
+        description: "Monthly Membership - Elite Plan",
+      },
+      {
+        userId: user.id,
+        amount: 59.00,
+        dueDate: thisMonth,
+        paidDate: new Date(thisMonth.getTime() + 1 * 24 * 60 * 60 * 1000),
+        status: "paid",
+        planName: "Elite",
+        description: "Monthly Membership - Elite Plan",
+      },
+      {
+        userId: user.id,
+        amount: 59.00,
+        dueDate: nextMonth,
+        paidDate: null,
+        status: "pending",
+        planName: "Elite",
+        description: "Monthly Membership - Elite Plan",
+      },
+      {
+        userId: user.id,
+        amount: 59.00,
+        dueDate: monthAfter,
+        paidDate: null,
+        status: "pending",
+        planName: "Elite",
+        description: "Monthly Membership - Elite Plan",
+      },
+    ]);
 
     const token = generateToken(user.id, user.role);
     const { password: _, ...userWithoutPassword } = user;

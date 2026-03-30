@@ -51,7 +51,15 @@ export default function Payments() {
               {isLoading ? (
                 <tr><td colSpan={5} className="py-8 text-center">Loading...</td></tr>
               ) : payments?.length === 0 ? (
-                <tr><td colSpan={5} className="py-8 text-center text-muted-foreground">No payments found</td></tr>
+                <tr>
+                  <td colSpan={5}>
+                    <div className="py-16 text-center">
+                      <CreditCard className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
+                      <p className="text-foreground font-bold mb-1">No payment records yet</p>
+                      <p className="text-sm text-muted-foreground">Your billing history will appear here once you have an active membership plan.</p>
+                    </div>
+                  </td>
+                </tr>
               ) : (
                 payments?.map((payment) => (
                   <tr key={payment.id} className="hover:bg-secondary/20 transition-colors">
