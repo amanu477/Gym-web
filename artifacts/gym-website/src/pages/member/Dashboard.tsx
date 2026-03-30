@@ -87,10 +87,10 @@ export default function Dashboard() {
                   <XAxis dataKey="date" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 2', 'dataMax + 2']} />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#0a0a0a', borderColor: '#333', borderRadius: '8px' }}
-                    itemStyle={{ color: '#f59e0b' }}
+                    contentStyle={{ backgroundColor: 'hsl(220,58%,9%)', borderColor: 'hsl(220,40%,18%)', borderRadius: '8px' }}
+                    itemStyle={{ color: 'hsl(213,94%,62%)' }}
                   />
-                  <Line type="monotone" dataKey="weight" stroke="#f59e0b" strokeWidth={3} dot={{ fill: '#f59e0b', r: 4 }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="weight" stroke="hsl(213,94%,62%)" strokeWidth={3} dot={{ fill: 'hsl(213,94%,62%)', r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             ) : (

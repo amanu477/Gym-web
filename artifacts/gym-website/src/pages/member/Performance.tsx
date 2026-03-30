@@ -107,13 +107,13 @@ export default function Performance() {
               {chartData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#222" vertical={false} />
-                    <XAxis dataKey="date" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
-                    <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 5', 'dataMax + 5']} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(220,40%,18%)" vertical={false} />
+                    <XAxis dataKey="date" stroke="hsl(215,20%,52%)" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke="hsl(215,20%,52%)" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 5', 'dataMax + 5']} />
                     <Tooltip 
-                      contentStyle={{ backgroundColor: '#0a0a0a', borderColor: '#333', borderRadius: '8px' }}
+                      contentStyle={{ backgroundColor: 'hsl(220,58%,9%)', borderColor: 'hsl(220,40%,18%)', borderRadius: '8px' }}
                     />
-                    <Line type="monotone" dataKey="weight" name="Weight (kg)" stroke="#f59e0b" strokeWidth={3} dot={{ fill: '#f59e0b', r: 4 }} activeDot={{ r: 6 }} />
+                    <Line type="monotone" dataKey="weight" name="Weight (kg)" stroke="hsl(213,94%,62%)" strokeWidth={3} dot={{ fill: 'hsl(213,94%,62%)', r: 4 }} activeDot={{ r: 6 }} />
                   </LineChart>
                 </ResponsiveContainer>
               ) : (

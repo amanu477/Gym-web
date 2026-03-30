@@ -78,7 +78,7 @@ export function DashboardLayout({ children, requiredRole }: { children: React.Re
   const portalLabel = user.role === "admin" ? "Admin Panel" : user.role === "trainer" ? "Trainer Portal" : "Member Dashboard";
 
   const Sidebar = () => (
-    <aside className="w-64 border-r border-border bg-white flex flex-col h-full">
+    <aside className="w-64 border-r border-border bg-card flex flex-col h-full">
       <div className="h-16 flex items-center px-5 border-b border-border">
         <Link href="/" className="flex items-center gap-2 cursor-pointer">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -103,7 +103,7 @@ export function DashboardLayout({ children, requiredRole }: { children: React.Re
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer",
                 isActive
                   ? "bg-primary text-white shadow-sm"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-primary"
+                  : "text-muted-foreground hover:bg-secondary hover:text-primary"
               )}>
                 <Icon className="w-4 h-4" />
                 {link.label}
@@ -125,7 +125,7 @@ export function DashboardLayout({ children, requiredRole }: { children: React.Re
         </div>
         <button
           onClick={() => logoutMutation.mutate()}
-          className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 transition-colors w-full"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors w-full"
         >
           <LogOut className="w-4 h-4" />
           Log Out
@@ -135,7 +135,7 @@ export function DashboardLayout({ children, requiredRole }: { children: React.Re
   );
 
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex bg-background">
       <div className="hidden md:flex md:w-64 md:flex-shrink-0 md:flex-col h-screen sticky top-0">
         <Sidebar />
       </div>
@@ -150,7 +150,7 @@ export function DashboardLayout({ children, requiredRole }: { children: React.Re
       )}
 
       <main className="flex-1 flex flex-col min-w-0 min-h-screen">
-        <header className="h-14 border-b border-border bg-white flex items-center px-4 md:hidden justify-between sticky top-0 z-30">
+        <header className="h-14 border-b border-border bg-card flex items-center px-4 md:hidden justify-between sticky top-0 z-30">
           <button onClick={() => setMobileSidebarOpen(true)} className="p-1.5 text-foreground hover:bg-secondary rounded-lg">
             <Menu className="w-5 h-5" />
           </button>

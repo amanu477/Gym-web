@@ -49,7 +49,7 @@ export default function TrainerDashboard() {
             {members && members.length > 0 ? (
               <ul className="space-y-3">
                 {members.slice(0, 5).map((m) => (
-                  <li key={m.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors">
+                  <li key={m.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary transition-colors">
                     <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-sm">
                       {m.firstName[0]}{m.lastName[0]}
                     </div>

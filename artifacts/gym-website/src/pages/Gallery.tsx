@@ -7,7 +7,7 @@ export default function Gallery() {
   const { data: images, isLoading } = useGetGalleryImages();
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
-  const categories = ["All", ...Array.from(new Set(images?.map(img => img.category).filter(Boolean)))];
+  const categories = ["All", ...Array.from(new Set((images ?? []).map(img => img.category).filter(Boolean)))];
   
   const filteredImages = activeCategory === "All" 
     ? images 

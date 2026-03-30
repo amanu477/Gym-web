@@ -246,7 +246,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-            {plans?.slice(0, 3).map((plan, i) => (
+            {plans?.slice(0, 3)?.map((plan, i) => (
               <motion.div
                 key={plan.id}
                 variants={itemVariants}
