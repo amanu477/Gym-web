@@ -1,0 +1,23 @@
+packages:
+  "framer-motion": "For premium smooth page transitions and scroll reveals"
+  "recharts": "For member performance and weight tracking charts"
+  "date-fns": "For formatting dates in blog posts and dashboard"
+  "clsx": "Utility for conditionally joining classNames"
+  "tailwind-merge": "Utility for merging tailwind classes without conflicts"
+  "lucide-react": "Icons for UI"
+
+images:
+  - path: "artifacts/gym-website/public/images/hero-bg.png"
+    description: "Dark atmospheric luxury gym interior, dramatic rim lighting, high end equipment, black and gold tones, cinematic composition"
+    aspect_ratio: "16:9"
+  - path: "artifacts/gym-website/public/images/about-img.png"
+    description: "Close up of heavily textured kettlebell in a dark gym environment, gold rim light, luxury athletic aesthetic, intense shadow"
+    aspect_ratio: "4:3"
+  - path: "artifacts/gym-website/public/images/auth-bg.png"
+    description: "Abstract dark fitness background, dynamic motion blur, black and amber light trails, premium luxury feel"
+    aspect_ratio: "16:9"
+
+notes:
+  - "The frontend relies on the exact generated API hooks from @workspace/api-client-react."
+  - "Authentication uses a JWT token stored in localStorage ('auth_token') which is injected into the request headers of the hooks."
+  - "Visual design follows a 'luxury dark athletic' theme with deep zinc/black backgrounds and amber/gold accents."

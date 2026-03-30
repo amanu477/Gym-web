@@ -1,22 +1,43 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Elite Fitness Gym API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication operations
+  - name: users
+    description: User management
+  - name: trainers
+    description: Trainer profiles
+  - name: blog
+    description: Blog posts
+  - name: testimonials
+    description: Member testimonials
+  - name: pricing
+    description: Pricing plans
+  - name: gallery
+    description: Photo gallery
+  - name: performance
+    description: Member performance tracking
+  - name: payments
+    description: Payment schedule
+  - name: contact
+    description: Contact messages
+  - name: admin
+    description: Admin operations
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +45,411 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Logout user
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /trainers:
+    get:
+      operationId: getTrainers
+      tags: [trainers]
+      summary: Get all trainers
+      responses:
+        "200":
+          description: List of trainers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Trainer"
+    post:
+      operationId: createTrainer
+      tags: [trainers]
+      summary: Create a trainer (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTrainerRequest"
+      responses:
+        "201":
+          description: Trainer created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trainer"
+
+  /trainers/{id}:
+    get:
+      operationId: getTrainer
+      tags: [trainers]
+      summary: Get a trainer by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Trainer details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trainer"
+
+  /blog:
+    get:
+      operationId: getBlogPosts
+      tags: [blog]
+      summary: Get all blog posts
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of blog posts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPostsResponse"
+    post:
+      operationId: createBlogPost
+      tags: [blog]
+      summary: Create a blog post (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBlogPostRequest"
+      responses:
+        "201":
+          description: Blog post created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+
+  /blog/{id}:
+    get:
+      operationId: getBlogPost
+      tags: [blog]
+      summary: Get a blog post by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+
+  /testimonials:
+    get:
+      operationId: getTestimonials
+      tags: [testimonials]
+      summary: Get all testimonials
+      responses:
+        "200":
+          description: List of testimonials
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Testimonial"
+    post:
+      operationId: createTestimonial
+      tags: [testimonials]
+      summary: Create a testimonial
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTestimonialRequest"
+      responses:
+        "201":
+          description: Testimonial created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Testimonial"
+
+  /pricing:
+    get:
+      operationId: getPricingPlans
+      tags: [pricing]
+      summary: Get all pricing plans
+      responses:
+        "200":
+          description: List of pricing plans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PricingPlan"
+
+  /gallery:
+    get:
+      operationId: getGalleryImages
+      tags: [gallery]
+      summary: Get all gallery images
+      responses:
+        "200":
+          description: List of gallery images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GalleryImage"
+    post:
+      operationId: createGalleryImage
+      tags: [gallery]
+      summary: Add a gallery image (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGalleryImageRequest"
+      responses:
+        "201":
+          description: Image added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GalleryImage"
+
+  /performance:
+    get:
+      operationId: getPerformanceEntries
+      tags: [performance]
+      summary: Get performance entries for current user
+      responses:
+        "200":
+          description: Performance entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerformanceEntry"
+    post:
+      operationId: createPerformanceEntry
+      tags: [performance]
+      summary: Add a performance entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePerformanceEntryRequest"
+      responses:
+        "201":
+          description: Performance entry created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PerformanceEntry"
+
+  /payments:
+    get:
+      operationId: getPaymentSchedule
+      tags: [payments]
+      summary: Get payment schedule for current user
+      responses:
+        "200":
+          description: Payment schedule
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Payment"
+
+  /contact:
+    post:
+      operationId: sendContactMessage
+      tags: [contact]
+      summary: Send a contact message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactMessageRequest"
+      responses:
+        "200":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /contact/trainer/{trainerId}:
+    post:
+      operationId: contactTrainer
+      tags: [contact]
+      summary: Contact a specific trainer
+      parameters:
+        - name: trainerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactMessageRequest"
+      responses:
+        "200":
+          description: Message sent to trainer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /admin/stats:
+    get:
+      operationId: getAdminStats
+      tags: [admin]
+      summary: Get admin dashboard stats
+      responses:
+        "200":
+          description: Admin stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
+
+  /admin/users:
+    get:
+      operationId: getAdminUsers
+      tags: [admin]
+      summary: Get all users (admin)
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+  /admin/contact-messages:
+    get:
+      operationId: getContactMessages
+      tags: [admin]
+      summary: Get all contact messages (admin)
+      responses:
+        "200":
+          description: List of contact messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ContactMessage"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +460,484 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      required:
+        - error
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        token:
+          type: string
+      required:
+        - user
+        - token
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        role:
+          type: string
+          enum: [member, admin]
+        planId:
+          type: integer
+        memberSince:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - email
+        - firstName
+        - lastName
+        - role
+
+    Trainer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        specialty:
+          type: string
+        bio:
+          type: string
+        imageUrl:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        experience:
+          type: integer
+        certifications:
+          type: array
+          items:
+            type: string
+        rating:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - specialty
+        - bio
+
+    CreateTrainerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        specialty:
+          type: string
+        bio:
+          type: string
+        imageUrl:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        experience:
+          type: integer
+        certifications:
+          type: array
+          items:
+            type: string
+        rating:
+          type: number
+      required:
+        - name
+        - specialty
+        - bio
+
+    BlogPost:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: string
+        imageUrl:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        published:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - excerpt
+        - content
+        - author
+
+    BlogPostsResponse:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: "#/components/schemas/BlogPost"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+      required:
+        - posts
+        - total
+        - page
+        - limit
+
+    CreateBlogPostRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: string
+        imageUrl:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        published:
+          type: boolean
+      required:
+        - title
+        - excerpt
+        - content
+        - author
+
+    Testimonial:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        role:
+          type: string
+        content:
+          type: string
+        rating:
+          type: integer
+        imageUrl:
+          type: string
+        approved:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - content
+        - rating
+
+    CreateTestimonialRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        role:
+          type: string
+        content:
+          type: string
+        rating:
+          type: integer
+        imageUrl:
+          type: string
+      required:
+        - name
+        - content
+        - rating
+
+    PricingPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        period:
+          type: string
+        description:
+          type: string
+        features:
+          type: array
+          items:
+            type: string
+        highlighted:
+          type: boolean
+        color:
+          type: string
+      required:
+        - id
+        - name
+        - price
+        - period
+        - features
+
+    GalleryImage:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+        title:
+          type: string
+        category:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - url
+        - title
+
+    CreateGalleryImageRequest:
+      type: object
+      properties:
+        url:
+          type: string
+        title:
+          type: string
+        category:
+          type: string
+      required:
+        - url
+        - title
+
+    PerformanceEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        weight:
+          type: number
+        bmi:
+          type: number
+        bodyFat:
+          type: number
+        muscleMass:
+          type: number
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - date
+        - weight
+
+    CreatePerformanceEntryRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        weight:
+          type: number
+        bmi:
+          type: number
+        bodyFat:
+          type: number
+        muscleMass:
+          type: number
+        notes:
+          type: string
+      required:
+        - date
+        - weight
+
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        amount:
+          type: number
+        dueDate:
+          type: string
+          format: date-time
+        paidDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [pending, paid, overdue]
+        planName:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - userId
+        - amount
+        - dueDate
+        - status
+
+    ContactMessageRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+      required:
+        - name
+        - email
+        - message
+
+    ContactMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        trainerId:
+          type: integer
+        read:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+        - message
+
+    AdminStats:
+      type: object
+      properties:
+        totalMembers:
+          type: integer
+        activeMembers:
+          type: integer
+        totalRevenue:
+          type: number
+        pendingPayments:
+          type: integer
+        totalTrainers:
+          type: integer
+        totalBlogPosts:
+          type: integer
+        unreadMessages:
+          type: integer
+        newMembersThisMonth:
+          type: integer
+      required:
+        - totalMembers
+        - activeMembers
+        - totalRevenue
+        - pendingPayments
+        - totalTrainers
+        - totalBlogPosts
+        - unreadMessages
+        - newMembersThisMonth
