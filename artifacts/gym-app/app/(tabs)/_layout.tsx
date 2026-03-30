@@ -16,13 +16,17 @@ function NativeTabLayout() {
         <Icon sf={{ default: "house", selected: "house.fill" }} />
         <Label>Home</Label>
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="workouts">
+        <Icon sf={{ default: "dumbbell", selected: "dumbbell.fill" }} />
+        <Label>Workouts</Label>
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="schedule">
         <Icon sf={{ default: "calendar", selected: "calendar.fill" }} />
         <Label>Schedule</Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="progress">
-        <Icon sf={{ default: "chart.line.uptrend.xyaxis", selected: "chart.line.uptrend.xyaxis" }} />
-        <Label>Progress</Label>
+      <NativeTabs.Trigger name="trainers">
+        <Icon sf={{ default: "person.2", selected: "person.2.fill" }} />
+        <Label>Trainers</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="profile">
         <Icon sf={{ default: "person", selected: "person.fill" }} />
@@ -75,6 +79,18 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
+        name="workouts"
+        options={{
+          title: "Workouts",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="dumbbell" tintColor={color} size={24} />
+            ) : (
+              <Ionicons name="barbell-outline" size={22} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
         name="schedule"
         options={{
           title: "Schedule",
@@ -83,6 +99,18 @@ function ClassicTabLayout() {
               <SymbolView name="calendar" tintColor={color} size={24} />
             ) : (
               <Feather name="calendar" size={22} color={color} />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="trainers"
+        options={{
+          title: "Trainers",
+          tabBarIcon: ({ color }) =>
+            isIOS ? (
+              <SymbolView name="person.2" tintColor={color} size={24} />
+            ) : (
+              <Ionicons name="people-outline" size={22} color={color} />
             ),
         }}
       />
