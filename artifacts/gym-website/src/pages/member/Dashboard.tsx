@@ -2,7 +2,7 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, Button } from "@/components/ui/LuxuryComponents";
 import { useGetMe, useGetPerformanceEntries, useGetPaymentSchedule } from "@workspace/api-client-react";
 import { getAuthHeaders } from "@/lib/auth-utils";
-import { Activity, CreditCard, Flame, Target } from "lucide-react";
+import { Activity, Calendar, CreditCard, Flame, MessageSquare, Target } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { format } from "date-fns";
 import { Link } from "wouter";
